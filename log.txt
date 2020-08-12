@@ -1,0 +1,114 @@
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+import
+File name:
+flashcards.txt
+4 cards have been loaded
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+add
+The card:
+a neural impulse; a brief electrical charge that travels down an axon.
+The definition of the card:
+action potential
+The pair ("a neural impulse; a brief electrical charge that travels down an axon.":"action potential") has been added.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+add
+The card:
+a layer of fatty tissue that insulates the axon and speeds up impulses.
+The definition of the card:
+myelin sheath
+The pair ("a layer of fatty tissue that insulates the axon and speeds up impulses.":"myelin sheath") has been added.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+hardest card
+There are no cards with errors.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+ask
+How many times to ask?
+4
+Print the definition of "the master, it is the most influential of its kind and regulates growth by controlling endocrine glands":
+pituitary gland
+Correct answer.
+Print the definition of "a layer of fatty tissue that insulates the axon and speeds up impulses.":
+pituitary gland
+Wrong. The right answer is "myelin sheath", but your definition is correct for "the master, it is the most influential of its kind and regulates growth by controlling endocrine glands".
+Print the definition of "linked to emotions, specifically rage and fear":
+hypothalamus
+Wrong. The right answer is "amygdala", but your definition is correct for "linked to emotion and reward, this structure directs maintenance activities such as eating and body temperature and helps govern the pituitary gland".
+Print the definition of "a neural impulse; a brief electrical charge that travels down an axon.":
+action potential
+Correct answer.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+hardest card
+The hardest cards are "linked to emotions, specifically rage and fear", "a layer of fatty tissue that insulates the axon and speeds up impulses.". You have 1 errors answering them.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+add
+The card:
+remove
+The definition of the card:
+remove
+The pair ("remove":"remove") has been added.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+remove
+Which card:
+remove
+The card has been removed.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+reset stats
+Card statistics have been reset.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+hardest card
+There are no cards with errors.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+ask
+How many times to ask?
+3
+Print the definition of "linked to emotion and reward, this structure directs maintenance activities such as eating and body temperature and helps govern the pituitary gland":
+hypothalamus
+Correct answer.
+Print the definition of "the master, it is the most influential of its kind and regulates growth by controlling endocrine glands":
+pituitary gland
+Correct answer.
+Print the definition of "linked to emotion and reward, this structure directs maintenance activities such as eating and body temperature and helps govern the pituitary gland":
+hypothalamus
+Correct answer.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+ask
+How many times to ask?
+4
+Print the definition of "a layer of fatty tissue that insulates the axon and speeds up impulses.":
+hypothalamus
+Wrong. The right answer is "myelin sheath", but your definition is correct for "linked to emotion and reward, this structure directs maintenance activities such as eating and body temperature and helps govern the pituitary gland".
+Print the definition of "linked to emotion and reward, this structure directs maintenance activities such as eating and body temperature and helps govern the pituitary gland":
+hypothalamus
+Correct answer.
+Print the definition of "a neural impulse; a brief electrical charge that travels down an axon.":
+action potential
+Correct answer.
+Print the definition of "a layer of fatty tissue that insulates the axon and speeds up impulses.":
+action potential
+Wrong. The right answer is "myelin sheath", but your definition is correct for "a neural impulse; a brief electrical charge that travels down an axon.".
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+hardest card
+The hardest card is "a layer of fatty tissue that insulates the axon and speeds up impulses.". You have 2 errors answering it.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+export
+File name:
+flashcards.txt
+6 cards have been saved.
+
+Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):
+log
+File name:
+log.txt
