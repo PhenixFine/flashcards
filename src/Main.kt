@@ -1,16 +1,20 @@
 import java.io.File
-import java.util.*
+import java.io.FileNotFoundException
+import java.io.IOException
+import java.util.Random
 
 private val TERMS = mutableListOf<String>()
 private val DEFINITIONS = mutableListOf<String>()
 private val MISTAKES = mutableListOf<Int>()
 private val LOG = mutableListOf<String>()
+private var EXPORT_FILE = ""
 
-fun main() {
+fun main(args: Array<String>) {
     val strCommands = "Input the action (add, remove, import, export, ask, exit, log, hardest card, reset stats):"
     val errorAsk = { output("No questions stored to ask.\n") }
     var exit = false
 
+    if (args.isNotEmpty()) handleCommandLine(args)
     do {
         when (getString(strCommands).toLowerCase()) {
             "add" -> getFlashcard()
@@ -25,6 +29,22 @@ fun main() {
         }
     } while (!exit)
     println("Bye Bye!")
+    if (EXPORT_FILE.isNotEmpty()) export(file = EXPORT_FILE)
+}
+
+private fun handleCommandLine(commands: Array<String>) {
+    try {
+        val commandsMap = mutableMapOf(commands[0] to commands[1])
+        if (commands.size == 4) commandsMap[commands[2]] = commands[3]
+        for ((command, file) in commandsMap) {
+            when (command) {
+                "-import" -> import(file)
+                "-export" -> EXPORT_FILE = file
+            }
+        }
+    } catch (e: Exception) {
+        output("There was an error involved in your command line import/export of a file, please try again.\n")
+    }
 }
 
 private fun getFlashcard() {
@@ -40,6 +60,7 @@ private fun getFlashcard() {
         output(strDefExists(definition))
         return
     }
+
     addCard(term, definition, 0)
     output("The pair (\"$term\":\"$definition\") has been added.\n")
 }
@@ -60,36 +81,43 @@ private fun removeFlashcard() {
     )
 }
 
-private fun import() {
-    val file = getFile()
+private fun import(file: String? = null) {
     try {
+        val myFile = File(file ?: getFileName())
         var count = 0
         var list: List<String>
-        file.forEachLine {
+
+        myFile.forEachLine {
             count++
             list = it.split("@:#:%")
             if (TERMS.contains(list[0])) {
                 overWriteCard(list[0], list[1], list[2].toInt())
             } else addCard(list[0], list[1], list[2].toInt())
-
         }
         output("$count cards have been loaded\n")
-    } catch (e: Exception) {
+    } catch (e: FileNotFoundException) {
         output("File not found.\n")
+    } catch (e: Exception) {
+        output("There was an error in loading your file. Please ensure it is not open in another program.\n")
     }
 }
 
-private fun export(log: Boolean = false) {
-    val file = getFile()
-    val strExport = { num: Int ->
-        if (log) LOG[num] else "${TERMS[num]}@:#:%${DEFINITIONS[num]}@:#:%${MISTAKES[num]}\n"
-    }
-    val strOutput = if (log) "The log has been saved.\n" else "${TERMS.size} cards have been saved.\n"
-
+private fun export(log: Boolean = false, file: String? = null) {
     try {
-        file.writeText("")
-        for (num in (if (log) LOG.indices else TERMS.indices)) file.appendText(strExport(num))
+        val myFile = File(file ?: getFileName())
+        val strExport = { num: Int ->
+            if (log) LOG[num] else "${TERMS[num]}@:#:%${DEFINITIONS[num]}@:#:%${MISTAKES[num]}\n"
+        }
+        val strOutput = if (log) "The log has been saved.\n" else "${TERMS.size} cards have been saved.\n"
+
+        myFile.writeText("")
+        for (num in (if (log) LOG.indices else TERMS.indices)) myFile.appendText(strExport(num))
         output(strOutput)
+    } catch (e: IOException) {
+        output(
+            "Access was denied in writing to the file. Please ensure it is not set to read only, or open in " +
+                    "another program.\n"
+        )
     } catch (e: Exception) {
         output("There was an error in writing your file, please try again.\n")
     }
@@ -101,12 +129,19 @@ private fun ask() {
     val strCorrect = "Correct answer."
     val strWrong = { definition: String -> "Wrong. The right answer is \"$definition\"" }
     val strWrongTerm = { term: String -> ", but your definition is correct for \"$term\"." }
-    val random = { (0..TERMS.lastIndex).random() }
+    var lastIndex = -1
+    val random = {
+        var num = lastIndex
+        if (TERMS.size > 1) while (num == lastIndex) num = (0..TERMS.lastIndex).random() else num = 0
+        lastIndex = num
+        num
+    }
 
     repeat(tries) {
         var index = random()
         val answer = getString(strGetDef(TERMS[index]))
         val definition = DEFINITIONS[index]
+
         output(
             when {
                 answer == definition -> strCorrect
@@ -129,13 +164,14 @@ private fun hardestCard() {
     if (MISTAKES.all { (it == 0) }) output("There are no cards with errors.\n") else {
         val lrgNum = MISTAKES.max()!!
         val indexes = mutableListOf<Int>()
+
         for (num in MISTAKES.indices) if (MISTAKES[num] == lrgNum) indexes.add(num)
         if (indexes.size == 1) {
             output("The hardest card is \"${TERMS[indexes[0]]}\". You have $lrgNum errors answering it.\n")
         } else {
             var combo = ""
-            for (i in indexes.indices) combo += "\"${TERMS[indexes[i]]}\"" + if (i != indexes.lastIndex) ", " else ""
 
+            for (i in indexes.indices) combo += "\"${TERMS[indexes[i]]}\"" + if (i != indexes.lastIndex) ", " else ""
             output("The hardest cards are $combo. You have $lrgNum errors answering them.\n")
         }
     }
@@ -158,7 +194,7 @@ private fun overWriteCard(term: String, definition: String, mistakes: Int) {
     MISTAKES[index] = mistakes
 }
 
-private fun getFile(): File = File(getString("File name:"))
+private fun getFileName() = getString("File name:")
 
 private fun output(string: String) {
     LOG.add("$string\n")
